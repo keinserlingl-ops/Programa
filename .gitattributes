@@ -1,2 +1,82 @@
+<?php
+
+$error_mensaje = ""; 
+$exito = false;        
+$edad = 0;
+$entrada_usuario = "";  
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $entrada_usuario = $_POST['age'];
+
+    if (ctype_digit($entrada_usuario)) {}
+        
+        $edad = (int)$entrada_usuario;
+
+        if ($edad > 0 && $edad < 120) {
+            
+            $exito = true;
+
+        } else {
+            $error_mensaje = "Error: La edad debe ser un número realista (entre 1 y 119).";
+        }
+
+    } else {
+
+        $error_mensaje = "Error: Solo se aceptan números enteros positivos.";
+    }
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Validación de Formulario</title>
+    <style>
+        body { font-family: sans-serif; display: grid; place-items: center; min-height: 200px; background-color: #f4f4f4; }
+        .container { background: #fff; border: 1px solid #ccc; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .error { color: red; font-weight: bold; }
+        .exito { color: green; font-weight: bold; }
+        input { margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <?php
+        if ($exito):
+        ?>
+
+            <h2 class="exito">✅ ¡Registro Exitoso!</h2>
+            <p>La edad válida registrada es: <strong><?php echo $edad; ?></strong></p>
+            <p><a href="registro.php">Registrar otro usuario</a></p>
+
+        <?php
+        else:
+        ?>
+
+            <h2>Formulario de Registro Seguro</h2>
+            <p>Por favor, ingrese su edad.</p>
+
+            <?php
+            if (!empty($error_mensaje)):
+            ?>
+                <p class="error">⚠️ <?php echo $error_mensaje; ?></p>
+            <?php endif; ?>
+
+            <form action="registro.php" method="POST">
+                <label for="age">Su Edad:</label><br>
+                <input type="text" id="age" name="age" 
+                       value="<?php echo htmlspecialchars($entrada_usuario); ?>">
+                <button type="submit">Enviar</button>
+            </form>
+
+        <?php endif; ?>
+
+    </div>
+
+</body>
+</html>
 # Auto detect text files and perform LF normalization
 * text=auto
